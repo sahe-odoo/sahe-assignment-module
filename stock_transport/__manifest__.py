@@ -2,7 +2,7 @@
     'name' : 'Transport Management System',
     'version' : '1.0',
     'category': '',
-    'summary' : 'Track Real Estates Deals Information',
+    'summary' : 'Track Tranportation of Vehicles',
     'depends' : [
         'fleet','stock_picking_batch'
     ],

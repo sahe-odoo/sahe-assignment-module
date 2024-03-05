@@ -18,4 +18,40 @@
             </group>
         </field>
     </record>
+
+    <record id="stock_picking_batch_graph_view" model="ir.ui.view">
+        <field name="name">stock.picking.batch.graph.view</field>
+        <field name="model">stock.picking.batch</field>
+        <field name="arch" type="xml">
+            <graph string="Vehicle Graph" sample="1">
+                <field name="scheduled_date" type="row" interval="day"/>
+                <field name="vehicle_category_id" type="column"/>
+                <field name="volume" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="stock_picking_batch_gantt_view" model="ir.ui.view">
+        <field name="name">stock.picking.batch.gantt.view</field>
+        <field name="model">stock.picking.batch</field>
+        <field name="arch" type="xml">
+            <gantt date_start="scheduled_date" date_stop="scheduled_date" default_group_by="dock_id,vehicle_id"
+                default_scale="week" color="vehicle_id" precision="{'day': 'hour:full', 'week': 'day:full', 'month': 'day:full', 'year': 'day:full'}" decoration-info="state=='draft'">
+                <field name="volume"/>
+                <field name="state"/>
+                <templates>
+                    <div t-name="gantt-popover">
+                        <div><strong>Date — </strong><t t-esc="scheduled_date.toFormat('f')"/></div>
+                        <div><t t-out="volume"/></div>
+                    </div>
+                </templates>
+            </gantt>
+        </field>
+    </record>
+
+   <record id="stock_picking_batch.stock_picking_batch_action" model="ir.actions.act_window">
+        <field name="name">Inventory Batch</field>
+        <field name="res_model">stock.picking.batch</field>
+        <field name="view_mode">tree,form,kanban,graph,gantt</field>
+    </record>
 </odoo>
