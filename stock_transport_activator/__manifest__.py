@@ -4,7 +4,7 @@
     'category': '',
     'summary' : 'Stock Transport Actvator',
     'depends' : [
-        'fleet','stock_picking_batch','base'
+        'stock','base'
     ],
     'data' : [
         'views/res_config_settings_views.xml',

@@ -5,8 +5,11 @@ class StockPicking(models.Model):
 
     total_volume = fields.Float(compute="_compute_total_volume")
 
-    @api.depends('total_volume')
+    @api.depends('move_line_ids')
     def _compute_total_volume(self):
-        total = self.move_line_ids
-        for record in total:
-            self.total_volume=record.product_id.volume * record.quantity
+        for res in self:
+            total = res.move_line_ids
+            initial_volume=0
+            for record in total:
+                initial_volume+=record.product_id.volume * record.quantity
+            res.total_volume=initial_volume

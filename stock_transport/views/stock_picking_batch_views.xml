@@ -5,17 +5,13 @@
         <field name="model">stock.picking.batch</field>
         <field name="inherit_id" ref="stock_picking_batch.stock_picking_batch_form"/>
         <field name="arch" type="xml">
-            <group>
-                <group>
-                    <field name="vehicle_id" placeholder="Third Party Provider"/>
-                    <field name="vehicle_category_id" placeholder="e.g. Semi-truck"/>
-                </group>
-                <group>
-                    <field name="dock_id"/>
-                    <field name="weight" widget="progressbar" invisible="not vehicle_category_id"/>
-                    <field name="volume" widget="progressbar" invisible="not vehicle_category_id"/>
-                </group>
-            </group>
+            <xpath expr="//field[@name='scheduled_date']" position="after">
+                <field name="dock_id"/>
+                <field name="vehicle_id" placeholder="Third Party Provider"/>
+                <field name="vehicle_category_id" placeholder="e.g. Semi-truck"/>
+                <field name="weight" widget="progressbar" invisible="not vehicle_category_id"/>
+                <field name="volume" widget="progressbar" invisible="not vehicle_category_id"/>
+            </xpath>
         </field>
     </record>
 
@@ -26,7 +22,6 @@
             <graph string="Vehicle Graph" sample="1">
                 <field name="scheduled_date" type="row" interval="day"/>
                 <field name="vehicle_category_id" type="column"/>
-                <field name="volume" type="measure"/>
             </graph>
         </field>
     </record>
@@ -36,7 +31,7 @@
         <field name="model">stock.picking.batch</field>
         <field name="arch" type="xml">
             <gantt date_start="scheduled_date" date_stop="scheduled_date" default_group_by="dock_id,vehicle_id"
-                default_scale="week" color="vehicle_id" precision="{'day': 'hour:full', 'week': 'day:full', 'month': 'day:full', 'year': 'day:full'}" decoration-info="state=='draft'">
+                default_scale="week" color="vehicle_id" precision="{'week': 'day:full'}" decoration-info="state=='draft'">
                 <field name="volume"/>
                 <field name="state"/>
                 <templates>
